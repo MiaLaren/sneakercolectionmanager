@@ -1,0 +1,151 @@
+#include <iostream>
+#include <string>
+using namespace std;
+
+// 1. Enum for different sneaker brands
+enum SneakerBrand { NIKE, ADIDAS, JORDAN, NEW_BALANCE, VANS, OTHER };
+
+// 2. Enum for sneaker categorys
+enum SneakerCategory { RUNNING, BASKETBALL, LIFESTYLE, SKATE, TRAINING };
+
+// 3. Struct for sneaker
+struct Sneaker {
+    string modelName;
+    SneakerBrand brand;
+    SneakerCategory category;
+    double size;
+    double price;
+    bool isDeadstock;
+    int yearReleased;
+};
+
+// 4a. Convert SneakerBrand to string
+string brandToString(SneakerBrand b) {
+    switch (b) {
+        case NIKE: return "Nike";
+        case ADIDAS: return "Adidas";
+        case JORDAN: return "Jordan";
+        case NEW_BALANCE: return "New Balance";
+        case VANS: return "Vans";
+        default: return "Other";
+    }
+}
+
+// 4b. Convert SneakerCategory to string
+string categoryToString(SneakerCategory c) {
+    switch (c) {
+        case RUNNING: return "Running";
+        case BASKETBALL: return "Basketball";
+        case LIFESTYLE: return "Lifestyle";
+        case SKATE: return "Skate";
+        case TRAINING: return "Training";
+        default: return "Unknown";
+    }
+}
+
+// 6a. Display a single sneaker
+void displaySneaker(Sneaker s) {
+    cout << "Model Name: " << s.modelName << endl;
+    cout << "Brand: " << brandToString(s.brand) << endl;
+    cout << "Category: " << categoryToString(s.category) << endl;
+    cout << "Size: " << s.size << endl;
+    cout << "Price: $" << s.price << endl;
+    cout << "Deadstock: " << (s.isDeadstock ? "Yes" : "No") << endl;
+    cout << "Year Released: " << s.yearReleased << endl;
+    cout << "---------------------------" << endl;
+}
+
+// 6b. Display all sneakers in an array
+void displayAll(Sneaker arr[], int count) {
+    for (int i = 0; i < count; i++) {
+        displaySneaker(arr[i]);
+    }
+}
+
+int main() {
+    const int MAX_SNEAKERS = 20;
+    Sneaker collection[MAX_SNEAKERS];
+    int count = 8; // starting with 8 hardcoded sneakers
+
+    // 5. Hardcoded sneakers
+    collection[0] = {"Air Max 90", NIKE, RUNNING, 10.5, 120.0, true, 2020};
+    collection[1] = {"Ultraboost 21", ADIDAS, RUNNING, 9.5, 180.0, false, 2021};
+    collection[2] = {"Air Jordan 1", JORDAN, BASKETBALL, 11.0, 170.0, true, 2019};
+    collection[3] = {"574 Classic", NEW_BALANCE, LIFESTYLE, 10.0, 80.0, false, 2018};
+    collection[4] = {"Old Skool", VANS, SKATE, 9.0, 65.0, true, 2021};
+    collection[5] = {"Pegasus 38", NIKE, RUNNING, 10.5, 120.0, false, 2021};
+    collection[6] = {"Forum Low", ADIDAS, BASKETBALL, 10.0, 110.0, true, 2020};
+    collection[7] = {"Blazer Mid", NIKE, LIFESTYLE, 11.0, 100.0, false, 2019};
+
+    int choice;
+
+    do {
+        cout << "\n===== Sneaker Collection Manager =====\n";
+        cout << "1. Display All Sneakers\n";
+        cout << "2. Add a Sneaker\n";
+        cout << "3. Search by Brand\n";
+        cout << "4. Search by Size\n";
+        cout << "5. Sort by Price\n";
+        cout << "6. Sort by Year\n";
+        cout << "0. Exit\n";
+        cout << "Enter choice: ";
+        cin >> choice;
+
+        switch (choice) {
+            case 1:
+                displayAll(collection, count);
+                break;
+            case 2:
+                if (count >= MAX_SNEAKERS) {
+                    cout << "Collection full!\n";
+                    break;
+                }
+                {
+                    Sneaker s;
+                    cout << "Enter model name: ";
+                    cin.ignore(); // clear newline
+                    getline(cin, s.modelName);
+                    
+                    int b;
+                    cout << "Enter brand (0-Nike, 1-Adidas, 2-Jordan, 3-New Balance, 4-Vans, 5-Other): ";
+                    cin >> b;
+                    s.brand = static_cast<SneakerBrand>(b);
+
+                    int c;
+                    cout << "Enter category (0-Running, 1-Basketball, 2-Lifestyle, 3-Skate, 4-Training): ";
+                    cin >> c;
+                    s.category = static_cast<SneakerCategory>(c);
+
+                    cout << "Enter size: ";
+                    cin >> s.size;
+                    cout << "Enter price: ";
+                    cin >> s.price;
+
+                    char ds;
+                    cout << "Is it deadstock? (y/n): ";
+                    cin >> ds;
+                    s.isDeadstock = (ds == 'y' || ds == 'Y');
+
+                    cout << "Enter year released: ";
+                    cin >> s.yearReleased;
+
+                    collection[count++] = s;
+                }
+                break;
+            case 3:
+            case 4:
+            case 5:
+            case 6:
+                cout << "Coming in Part 2...\n";
+                break;
+            case 0:
+                cout << "Exiting...\n";
+                break;
+            default:
+                cout << "Invalid choice. Try again.\n";
+        }
+
+    } while (choice != 0);
+
+    return 0;
+}
