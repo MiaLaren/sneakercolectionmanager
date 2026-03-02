@@ -1,3 +1,10 @@
+//***
+//Author: Mia Santos
+//Assignement: Sneaker Collection Manager Part 1
+// Description: A console application that stores, displays, searches, and sorts a personal sneaker collection
+// ***
+
+
 #include <iostream>
 #include <string>
 using namespace std;
